@@ -6,7 +6,7 @@ namespace Assets.Scripts.PlayerMovement
 {
     public class PlayerObject : MonoBehaviour, IPlayerObject
     {
-        private PlayerController _playerController;
+        private PlayerController _playerController;        
 
         void OnEnable()
         {
