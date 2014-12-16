@@ -1,24 +1,23 @@
-﻿using Nebula.TimedList;
+﻿using Nebula.Input;
 using NFluent;
 using NUnit.Framework;
-using Nebula.InputRecorder;
 
-namespace Tests.Nebula.InputRecorder
+namespace Tests.Nebula.Input
 {
     public class InputRecorderTests
     {
-        private global::Nebula.InputRecorder.InputRecorder _recorder;
+        private InputRecorder _recorder;
 
         [SetUp]
         public void SetUp()
         {
-            _recorder = new global::Nebula.InputRecorder.InputRecorder();
+            _recorder = new InputRecorder();
         }
 
         [Test]
         public void CanGetInputAfterRecording()
         {
-            var recordedInput = new RecordedInput("Horizontal", 1.0f, 0.01f);
+            var recordedInput = new RecordedInput(new []{new RecordedInput.InputData("Horizontal", 1.0f)}, 0.01f);
             _recorder.RecordInput(recordedInput);
 
             Check.That(_recorder.GetInputForDuration(0.01f)).ContainsExactly(recordedInput);

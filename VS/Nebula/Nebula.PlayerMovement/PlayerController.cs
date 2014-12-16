@@ -1,23 +1,21 @@
 ﻿namespace Nebula.PlayerMovement
 {
     public class PlayerController
-    {
-        private readonly float _speed;
-
-        public PlayerController(float speed)
-        {
-            _speed = speed;
-        }
+    {        
         public IPlayerObject PlayerObject { get; set; }
+        public float Speed { get; set; }
 
         public void MoveHorizontally(float input)
         {
-            PlayerObject.MoveHorizontally(_speed * input);
+            PlayerObject.MoveHorizontally(Speed * input);
         }
-
-        public void MoveVertically(float input)
+        public void MoveForward(float input)
         {
-            PlayerObject.MoveVertically(_speed * input);
+            PlayerObject.MoveForward(Speed * input);
+        }
+        public void ApplyGravity(float value)
+        {
+            PlayerObject.MoveVertically(-value);
         }
     }
 }

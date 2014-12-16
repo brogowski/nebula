@@ -9,6 +9,7 @@ namespace Tests.Nebula.PlayerMovement
     {
         private PlayerController _playerController;
         private IPlayerObject _playerObjectMock;
+        private const float _gravity = 9.81f;
         private const float _speed = 2f;
         private const float _input = 2f;
 
@@ -16,7 +17,11 @@ namespace Tests.Nebula.PlayerMovement
         public void SetUp()
         {
             _playerObjectMock = MockRepository.GenerateMock<IPlayerObject>();
-            _playerController = new PlayerController(_speed) {PlayerObject = _playerObjectMock};
+            _playerController = new PlayerController
+            {
+                PlayerObject = _playerObjectMock,
+                Speed = _speed,                
+            };
         }
 
         [Test]
@@ -28,11 +33,19 @@ namespace Tests.Nebula.PlayerMovement
         }
 
         [Test]
-        public void MoveVerticallyIsMultipliedBySpeed()
+        public void MoveForwardIsMultipliedBySpeed()
         {
-            _playerObjectMock.Expect(q => q.MoveVertically(_speed * _input));
+            _playerObjectMock.Expect(q => q.MoveForward(_speed * _input));
 
-            _playerController.MoveVertically(_input);            
+            _playerController.MoveForward(_input);            
+        }
+
+        [Test]
+        public void GravityIsApplied()
+        {
+            _playerObjectMock.Expect(q => q.MoveVertically(-_gravity));
+
+            _playerController.ApplyGravity(_gravity);
         }
 
         [TearDown]

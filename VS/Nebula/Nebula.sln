@@ -20,9 +20,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Nebula.TimedList", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nebula.TimedList", "Nebula.TimedList\Nebula.TimedList.csproj", "{3510DEB1-FA68-41FC-B6C7-F829B593B5EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Nebula.InputRecorder", "Tests.Nebula.InputRecorder\Tests.Nebula.InputRecorder.csproj", "{C18786CF-A701-4E36-93C6-A314530E5D82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Nebula.Input", "Tests.Nebula.Input\Tests.Nebula.Input.csproj", "{C18786CF-A701-4E36-93C6-A314530E5D82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nebula.InputRecorder", "Nebula.InputRecorder\Nebula.InputRecorder.csproj", "{C6661F86-816B-4C66-98EA-FDB69071B029}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nebula.Input", "Nebula.Input\Nebula.Input.csproj", "{C6661F86-816B-4C66-98EA-FDB69071B029}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
