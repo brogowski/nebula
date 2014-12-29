@@ -1,4 +1,5 @@
-﻿using Nebula.Input;
+﻿using System;
+using Nebula.Input;
 using NFluent;
 using NUnit.Framework;
 
