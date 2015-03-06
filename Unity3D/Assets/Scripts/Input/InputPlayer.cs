@@ -24,9 +24,9 @@ namespace Assets.Scripts.Input
 
         private void ExecuteCommands(RecordedInput[] commands)
         {
-            for (int i=0; i<commands.Length; i++)
+            foreach (RecordedInput command in commands)
             {
-                ExecuteInput(commands[i]);
+                ExecuteInput(command);
             }
         }
 
