@@ -1,22 +1,31 @@
-﻿using NFluent;
-using NUnit.Framework;
+﻿using System;
+using System.Linq;
 using Nebula.TimedList;
+using NFluent;
+using NUnit.Framework;
 
 namespace Tests.Nebula.TimedList
 {
     [TestFixture]
     public class TimedListTests
     {
+        private const float Duration = 0.1f;
+        private const string Value = "value";
+
         private TimedList<string> _timedList;
-        private const float _duration = 0.1f;
-        private const string _value = "val";
+        private Func<string, float, string[]> _splitFunc; 
 
         [SetUp]
         public void SetUp()
         {
-            _timedList = new TimedList<string>();
+            _splitFunc = (input, duration) =>
+            {
+                var trimAmount = (int)(input.Length * duration);
+                return new[] {input.Substring(0, trimAmount), input.Substring(trimAmount, input.Length - trimAmount)};
+            };
+            _timedList = new TimedList<string>(_splitFunc);
         }
-        private void AddElement(string value = _value, float duration = _duration)
+        private void AddElement(string value = Value, float duration = Duration)
         {
             _timedList.Add(value, duration);
         }
@@ -34,7 +43,7 @@ namespace Tests.Nebula.TimedList
             AddElement();
             AddElement();
 
-            _timedList.Take(_duration);
+            _timedList.Take(Duration);
 
             Check.That(_timedList.Count).IsEqualTo(1);
         }
@@ -57,14 +66,14 @@ namespace Tests.Nebula.TimedList
         {
             AddElement();
 
-            Check.That(_timedList.Take(_duration)).ContainsExactly(new TimedElement<string>(_value, _duration));
+            Check.That(_timedList.Take(Duration)).ContainsExactly(new TimedElement<string>(Value, Duration));
         }
         [Test]
         public void AfterAddingElement_CumulativeDurationIsUpdated()
         {
             AddElement();
 
-            Check.That(_timedList.CumulativeDuration).IsEqualTo(_duration);
+            Check.That(_timedList.CumulativeDuration).IsEqualTo(Duration);
         }
         [Test]
         public void AfterTakingElement_CumulativeDurationIsUpdated()
@@ -72,9 +81,9 @@ namespace Tests.Nebula.TimedList
             AddElement();
             AddElement();
 
-            _timedList.Take(_duration);
+            _timedList.Take(Duration);
 
-            Check.That(_timedList.CumulativeDuration).IsEqualTo(_duration);
+            Check.That(_timedList.CumulativeDuration).IsEqualTo(Duration);
         }
         [Test]
         public void TakeWithDurationBiggerThenCumulativeDuration_ReturnsAllElements()
@@ -82,16 +91,16 @@ namespace Tests.Nebula.TimedList
             AddElement();
             AddElement();
 
-            Check.That(_timedList.Take(_duration*5)).HasSize(2);
+            Check.That(_timedList.Take(Duration*5)).HasSize(2);
         }
         [Test]
         public void AfterTakingElement_ElementIsRemovedFromList()
         {
             AddElement();
 
-            _timedList.Take(_duration);
+            _timedList.Take(Duration);
 
-            Check.That(_timedList.Take(_duration)).IsEmpty();
+            Check.That(_timedList.Take(Duration)).IsEmpty();
         }
         [Test]
         public void TakingWithDuration3WithElements2_2_ReturnsElementsWithModifiedDuration()
@@ -100,8 +109,11 @@ namespace Tests.Nebula.TimedList
             AddElement(duration: 2);
 
             Check.That(_timedList.Take(3f))
-                .ContainsExactly(new TimedElement<string>(_value, 2f), new TimedElement<string>(_value, 1f));
+                .ContainsExactly(
+                new TimedElement<string>(Value, 2f),
+                new TimedElement<string>(Value.Substring(0,2), 1f));
         }
+
         [Test]
         public void AfterTakeWhichAlteredDuration_DurationRemainsAltered()
         {
@@ -110,19 +122,31 @@ namespace Tests.Nebula.TimedList
 
             _timedList.Take(3f);
 
-            Check.That(_timedList.Take(2f))
-                .ContainsExactly(new TimedElement<string>(_value, 1f));
+            var leftElement = _timedList.Take(2f).Single();
+            Check.That(leftElement.Duration).IsEqualTo(1f);
         }
+
+        [Test]
+        public void AfterTakeWhichAlteredDuration_SplitIsCorrectlyInvoked()
+        {
+            AddElement(duration: 2);
+
+            var result = _timedList.Take(1f);
+
+            Check.That(result).ContainsExactly(new TimedElement<string>(Value.Substring(0, 2), 1f));
+            Check.That(_timedList.Take(1f)).ContainsExactly(new TimedElement<string>(Value.Substring(2, 3), 1f));
+        }
+
         [Test]
         public void SmallFloatTest()
         {
             AddElement(duration: 7);
             const float duration = 6.999999f;
 
-            Check.That(_timedList.Take(duration))
-                .ContainsExactly(new TimedElement<string>(_value, duration));
-            Check.That(_timedList.Take(7 - duration))
-                .ContainsExactly(new TimedElement<string>(_value, 7 - duration));
+            var firstElement = _timedList.Take(duration).Single();
+            var secondElement = _timedList.Take(duration).Single();
+            Check.That(firstElement.Duration).IsEqualTo(duration);
+            Check.That(secondElement.Duration).IsEqualTo(7 - duration);
         }
     }
 }

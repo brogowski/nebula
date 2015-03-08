@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,9 +7,11 @@ namespace Nebula.TimedList
     public class TimedList<T>
     {
         private readonly IList<TimedElement<T>> _elements;
-
-        public TimedList()
+        private readonly Func<T, float, T[]> _splitFunc;
+ 
+        public TimedList(Func<T, float, T[]> splitFunc)
         {
+            _splitFunc = splitFunc;
             _elements = new List<TimedElement<T>>();
         }
 
@@ -55,9 +58,16 @@ namespace Nebula.TimedList
             if (LastElementMustBeModified(duration))
             {
                 var indexToModify = toReturn.Length - 1;
+                var originalDuration = toReturn[indexToModify].Duration;
                 toReturn[indexToModify].Duration += duration;
-                _elements[indexToModify] = new TimedElement<T>(
-                    _elements[indexToModify].Value, -duration);
+
+                var splitPercent = duration / originalDuration;
+
+                var splitResult = _splitFunc(toReturn[indexToModify].Value, Math.Abs(splitPercent));
+                toReturn[indexToModify].Value = splitResult[0];
+
+                _elements[indexToModify] = new TimedElement<T>(splitResult[1], -duration);
+
                 amount--;
             }
 

@@ -6,7 +6,8 @@ namespace Nebula.Input
 {
     public class InputRecorder
     {
-        private readonly TimedList<RecordedInput.InputData[]> _timedList = new TimedList<RecordedInput.InputData[]>();
+        private readonly TimedList<RecordedInput.InputData[]> _timedList = new TimedList<RecordedInput.InputData[]>(
+            (datas, f) => new []{datas,datas});
 
         public void RecordInput(RecordedInput recorded)
         {            

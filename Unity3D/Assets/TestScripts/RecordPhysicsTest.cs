@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Nebula.Recording;
+using Nebula.TimedList;
 using UnityEngine;
 
 namespace Assets.TestScripts
@@ -13,37 +14,56 @@ namespace Assets.TestScripts
         private ReadWriteGameObject[] _gameObjects;
 
         private Vector3[] _startPositions;
-        private List<Vector3>[] _diffsPosition;
+        private TimedList<Vector3>[] _diffsPosition;
 
         private Quaternion[] _startRotations;
-        private List<Quaternion>[] _diffsRotation; 
+        private TimedList<Quaternion>[] _diffsRotation; 
 
         private bool _recordPhysics = true;        
 
         void OnEnable()
-        {
-            _gameObjects = GameObjectContainer.transform.Cast<Transform>().Select(q => new ReadWriteGameObject(q.gameObject)).ToArray();
+        {                        
+            _gameObjects = GameObjectContainer.transform.Cast<Transform>().Where(q => q.gameObject.activeSelf).Select(q => new ReadWriteGameObject(q.gameObject)).ToArray();
 
             _startPositions = GameObjectContainer.transform.Cast<Transform>().Select(q => q.transform.position).ToArray();            
             _startRotations = GameObjectContainer.transform.Cast<Transform>().Select(q => q.transform.rotation).ToArray();
 
-            _diffsPosition = _gameObjects.Select(q => new List<Vector3>()).ToArray();
-            _diffsRotation = _gameObjects.Select(q => new List<Quaternion>()).ToArray();            
+            _diffsPosition = _gameObjects.Select(q => GetNewVectorList()).ToArray();
+            _diffsRotation = _gameObjects.Select(q => GetNewQuaternionList()).ToArray();            
+        }
+
+        private TimedList<Vector3> GetNewVectorList()
+        {
+            return new TimedList<Vector3>((vector3, value) =>
+            {
+                return new[] {vector3*value, vector3*(1 - value)};
+            });
+        }
+
+        private TimedList<Quaternion> GetNewQuaternionList()
+        {
+            return new TimedList<Quaternion>((originalQuaternion, value) =>
+            {                            
+                var firstQuaternion = Quaternion.Lerp(new Quaternion(), originalQuaternion, value);
+                var secondQuaternion = originalQuaternion * Quaternion.Inverse(firstQuaternion);
+                return new[] {firstQuaternion, secondQuaternion};
+            });
         }
 
         void Update()
         {
+            var deltaTime = Time.deltaTime;
             if (_recordPhysics)
             {
-                RecordPhysics();
+                RecordPhysics(deltaTime);
             }
             else
             {
-                PlayPhysics();
+                PlayPhysics(deltaTime);
             }
         }
 
-        private void PlayPhysics()
+        private void PlayPhysics(float time)
         {
             if (NoPhysicsToPlay())
             {
@@ -53,28 +73,42 @@ namespace Assets.TestScripts
 
             for (int index = 0; index < _gameObjects.Length; index++)
             {
-                _gameObjects[index].ApplyPositionDiff(_diffsPosition[index][0]);
-                _gameObjects[index].ApplyRotationDiff(_diffsRotation[index][0]);                         
-
-                _diffsPosition[index].RemoveAt(0);
-                _diffsRotation[index].RemoveAt(0);
+                ApplyPositionDiffs(time, index);
+                ApplyRotationDiffs(time, index);
             }
+        }
+
+        private void ApplyRotationDiffs(float time, int index)
+        {
+            _diffsRotation[index].Take(time).Select(rotation =>
+            {
+                _gameObjects[index].ApplyRotationDiff(rotation.Value);
+                return true;
+            }).ToArray();
+            
+        }
+
+        private void ApplyPositionDiffs(float time, int index)
+        {
+            _diffsPosition[index].Take(time).Select(position =>
+            {
+                _gameObjects[index].ApplyPositionDiff(position.Value);
+                return true;
+            }).ToArray();
         }
 
         private bool NoPhysicsToPlay()
         {
-            return _diffsPosition.Any(q => !q.Any());
+            return _diffsPosition.Any(q => q.Count <= 0);
         }
 
-        private void RecordPhysics()
+        private void RecordPhysics(float time)
         {
             for (int index = 0; index < _gameObjects.Length; index++)
             {
-                var diffPos = _gameObjects[index].GetPositionDiff();
-                _diffsPosition[index].Add(diffPos);
+                _diffsPosition[index].Add(_gameObjects[index].GetPositionDiff(), time);
 
-                var diffRot = _gameObjects[index].GetRotationDiff();           
-                _diffsRotation[index].Add(diffRot);
+                _diffsRotation[index].Add(_gameObjects[index].GetRotationDiff(), time);
             }
         }
 
