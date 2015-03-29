@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Nebula.Transmission;
 using NFluent;
@@ -101,26 +102,21 @@ namespace Tests.Nebula.Transmission
             get { return IsCloseValue; }
         }
 
-        protected override Queue<string> RecivedPacketsQueue
+        protected override Queue RecivedPacketsQueue
         {
             get { return RecivedPackets; }
         }
 
-        protected override Queue<string> PacketsToSendQueue
+        protected override Queue PacketsToSendQueue
         {
             get { return PacketsToSend; }
-        }
-
-        public override void Dispose()
-        {
-            
         }
 
         public bool OpenConnectionInvoked;
         public bool CloseConnectionInvoked;
         public bool IsOpenValue;
         public bool IsCloseValue;
-        public Queue<string> RecivedPackets = new Queue<string>();
-        public Queue<string> PacketsToSend = new Queue<string>();
+        public Queue RecivedPackets = new Queue();
+        public Queue PacketsToSend = new Queue();
     }
 }

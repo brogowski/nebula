@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Nebula.Connectivity;
 
@@ -11,8 +12,8 @@ namespace Nebula.Transmission
         protected abstract void CloseConnection();
         protected abstract bool IsOpen { get; }
         protected abstract bool IsClosed { get; }
-        protected abstract Queue<string> RecivedPacketsQueue { get; }
-        protected abstract Queue<string> PacketsToSendQueue { get; } 
+        protected abstract Queue RecivedPacketsQueue { get; }
+        protected abstract Queue PacketsToSendQueue { get; } 
 
         public IEnumerable<string> GetPackets()
         {
@@ -25,7 +26,7 @@ namespace Nebula.Transmission
             var count = RecivedPacketsQueue.Count;
             for (int i = 0; i < count; i++)
             {
-                returnList.Add(RecivedPacketsQueue.Dequeue());
+                returnList.Add((string)RecivedPacketsQueue.Dequeue());
             }
             return returnList;
         }
@@ -44,7 +45,5 @@ namespace Nebula.Transmission
         {
             CloseConnection();
         }
-
-        public abstract void Dispose();
     }
 }

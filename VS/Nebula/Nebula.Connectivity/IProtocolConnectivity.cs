@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Nebula.Connectivity
+﻿namespace Nebula.Connectivity
 {
-    public interface IProtocolConnectivity : IDisposable
+    public interface IProtocolConnectivity
     {
         void Start();
         void Stop();
