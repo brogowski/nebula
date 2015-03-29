@@ -8,7 +8,7 @@ namespace Tests.Nebula.Connectivity
     [TestFixture]
     public class AbstractReciverTests
     {
-        private MockReciver _reciver;
+        private AbstractReciver<int> _reciver;
         private IReciveTransmissionProtocol _protocol;
         private IPacketDeserializer<int> _parser;
 

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{67861B57-393F-43D0-8823-E4B44A226236}</ProjectGuid>
+    <ProjectGuid>{45CB3563-3D91-45C3-ABDC-6EA6925BF492}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nebula.Connectivity</RootNamespace>
-    <AssemblyName>Nebula.Connectivity</AssemblyName>
+    <RootNamespace>Nebula.Transmission</RootNamespace>
+    <AssemblyName>Nebula.Transmission</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -38,19 +38,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractReciver.cs" />
-    <Compile Include="AbstractSender.cs" />
-    <Compile Include="IPacketDeserializer.cs" />
-    <Compile Include="IPacketSerializer.cs" />
-    <Compile Include="IProtocolConnectivity.cs" />
-    <Compile Include="IReciveTransmissionProtocol.cs" />
-    <Compile Include="ISendTransmissionProtocol.cs" />
+    <Compile Include="AbstractTransmissionProtocol.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nebula.Connectivity\Nebula.Connectivity.csproj">
+      <Project>{67861B57-393F-43D0-8823-E4B44A226236}</Project>
+      <Name>Nebula.Connectivity</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)..\..\Unity3D\Assets\Lib" /Y</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

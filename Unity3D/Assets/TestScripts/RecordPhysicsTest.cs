@@ -9,7 +9,7 @@ namespace Assets.TestScripts
     {
         public GameObject GameObjectContainer;
 
-        private readonly PhysicsRecorder _physicsRecorder = new PhysicsRecorder();
+        private PhysicsRecorder _physicsRecorder;
         private bool _recordPhysics = true;
         private Vector3[] _startPositions;
         private Quaternion[] _startRotations;
@@ -17,6 +17,8 @@ namespace Assets.TestScripts
 
         void OnEnable()
         {
+            _physicsRecorder = new PhysicsRecorder();
+
             _gameObjects = GameObjectContainer.transform.Cast<Transform>()
                 .Where(q => q.gameObject.activeSelf).Select(q => q.gameObject).ToArray();
 
@@ -27,6 +29,11 @@ namespace Assets.TestScripts
 
             _startPositions = GameObjectContainer.transform.Cast<Transform>().Select(q => q.transform.position).ToArray();            
             _startRotations = GameObjectContainer.transform.Cast<Transform>().Select(q => q.transform.rotation).ToArray();       
+        }
+
+        void OnDestroy()
+        {
+            _physicsRecorder.Dispose();
         }
 
 
