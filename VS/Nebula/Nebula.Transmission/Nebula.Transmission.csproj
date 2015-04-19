@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -40,7 +41,8 @@
   <ItemGroup>
     <Compile Include="AbstractTransmissionProtocol.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TcpTransmissionProtocol.cs" />
+    <Compile Include="TcpClientTransmissionProtocol.cs" />
+    <Compile Include="TcpListenerTransmissionProtocol.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nebula.Connectivity\Nebula.Connectivity.csproj">

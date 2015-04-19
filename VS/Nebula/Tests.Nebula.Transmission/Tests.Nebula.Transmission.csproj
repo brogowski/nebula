@@ -65,7 +65,8 @@
   <ItemGroup>
     <Compile Include="AbstractTransmissionProtocolTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TcpTransmissionProtocolTests.cs" />
+    <Compile Include="TcpListenerTransmissionProtocolTests.cs.cs" />
+    <Compile Include="TcpClientTransmissionProtocolTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

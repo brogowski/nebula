@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Nebula.Transmission;
 using NFluent;
 using NUnit.Framework;
@@ -44,7 +43,7 @@ namespace Tests.Nebula.Transmission
         [Test]
         public void WhenConnectionIsClosedGetPacketsThrowsException()
         {
-            _transmissionProtocol.IsCloseValue = true;
+            _transmissionProtocol.BeenCloseValue = true;
 
             Check.ThatCode(() => _transmissionProtocol.GetPackets())
                 .Throws<InvalidOperationException>().WithMessage("Connection has been closed.");
@@ -53,7 +52,7 @@ namespace Tests.Nebula.Transmission
         [Test]
         public void GetPacketsReturnsNotNull()
         {
-            _transmissionProtocol.IsOpenValue = true;
+            _transmissionProtocol.BeenOpenedValue = true;
 
             Check.That(_transmissionProtocol.GetPackets()).IsNotNull();
         }
@@ -61,7 +60,7 @@ namespace Tests.Nebula.Transmission
         [Test]
         public void GetPacketsReturnsCorrectPackets()
         {
-            _transmissionProtocol.IsOpenValue = true;
+            _transmissionProtocol.BeenOpenedValue = true;
             _transmissionProtocol.RecivedPackets.Enqueue("A");
             _transmissionProtocol.RecivedPackets.Enqueue("B");
             _transmissionProtocol.RecivedPackets.Enqueue("C");
@@ -72,12 +71,33 @@ namespace Tests.Nebula.Transmission
         [Test]
         public void SendPacketAddPacketToQueue()
         {
-            _transmissionProtocol.IsOpenValue = true;
+            _transmissionProtocol.BeenOpenedValue = true;
 
             _transmissionProtocol.SendPacket("A");
 
             Check.That(_transmissionProtocol.PacketsToSend).ContainsExactly("A");
         }
+
+        [Test]
+        public void StartSecondTimeThrowsException()
+        {
+            _transmissionProtocol.BeenOpenedValue = true;
+
+            Check.ThatCode(() => _transmissionProtocol.Start())
+                .Throws<InvalidOperationException>()
+                .WithMessage("Connection has already started");
+        }
+
+        [Test]
+        public void StopSecondTimeThrowsException()
+        {
+            _transmissionProtocol.BeenCloseValue = true;
+
+            Check.ThatCode(() => _transmissionProtocol.Stop())
+                .Throws<InvalidOperationException>()
+                .WithMessage("Connection has already stopped");
+        }
+
     }
 
     public class MockTransmissionProtocol : AbstractTransmissionProtocol
@@ -92,14 +112,14 @@ namespace Tests.Nebula.Transmission
             CloseConnectionInvoked = true;
         }
 
-        protected override bool IsOpen
+        protected override bool BeenOpened
         {
-            get { return IsOpenValue; }
+            get { return BeenOpenedValue; }
         }
 
-        protected override bool IsClosed
+        protected override bool BeenClosed
         {
-            get { return IsCloseValue; }
+            get { return BeenCloseValue; }
         }
 
         protected override Queue RecivedPacketsQueue
@@ -114,8 +134,8 @@ namespace Tests.Nebula.Transmission
 
         public bool OpenConnectionInvoked;
         public bool CloseConnectionInvoked;
-        public bool IsOpenValue;
-        public bool IsCloseValue;
+        public bool BeenOpenedValue;
+        public bool BeenCloseValue;
         public Queue RecivedPackets = new Queue();
         public Queue PacketsToSend = new Queue();
     }
