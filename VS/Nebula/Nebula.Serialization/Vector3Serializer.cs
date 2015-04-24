@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Nebula.Serialization
 {
-    public class Vector3Serializer : IPacketSerializer<Vector3>, IPacketDeserializer<Vector3>
+    public class Vector3Serializer : IPacketConverter<Vector3>
     {
         private const string Vector3SerializationFormat = "Vector3({0},{1},{2})";
 

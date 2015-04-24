@@ -69,7 +69,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CombinedPacketSerializerTests.cs" />
+    <Compile Include="DestroyPacketSerializerTests.cs" />
+    <Compile Include="GuidSerializerTests.cs" />
+    <Compile Include="MovePacketSerializerTests.cs" />
     <Compile Include="QuaternionSerializerTests.cs" />
+    <Compile Include="SpawnPacketSerializerTests.cs" />
     <Compile Include="Vector3SerializerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -80,6 +85,10 @@
     <ProjectReference Include="..\Nebula.Connectivity\Nebula.Connectivity.csproj">
       <Project>{67861b57-393f-43d0-8823-e4b44a226236}</Project>
       <Name>Nebula.Connectivity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nebula.Packets\Nebula.Packets.csproj">
+      <Project>{35EB3863-14BC-4114-B18B-9E40D951F2BB}</Project>
+      <Name>Nebula.Packets</Name>
     </ProjectReference>
     <ProjectReference Include="..\Nebula.Serialization\Nebula.Serialization.csproj">
       <Project>{4EEAAB71-60F5-4725-8258-FE436FD7D5E9}</Project>

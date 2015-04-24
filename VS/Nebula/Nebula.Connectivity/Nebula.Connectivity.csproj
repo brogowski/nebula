@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="AbstractReciver.cs" />
     <Compile Include="AbstractSender.cs" />
+    <Compile Include="IPacketConverter.cs" />
     <Compile Include="IPacketDeserializer.cs" />
     <Compile Include="IPacketSerializer.cs" />
     <Compile Include="IProtocolConnectivity.cs" />

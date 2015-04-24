@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Nebula.Serialization
 {
-    public class QuaternionSerializer : IPacketSerializer<Quaternion>, IPacketDeserializer<Quaternion>
+    public class QuaternionSerializer : IPacketConverter<Quaternion>
     {
         private const string QuaternionSerializationFormat = "Quaternion({0},{1},{2},{3})";
 
