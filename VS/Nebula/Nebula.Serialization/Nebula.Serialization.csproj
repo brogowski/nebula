@@ -45,8 +45,10 @@
     <Compile Include="DestroyPacketSerializer.cs" />
     <Compile Include="GuidSerializer.cs" />
     <Compile Include="MovePacketSerializer.cs" />
+    <Compile Include="PacketSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuaternionSerializer.cs" />
+    <Compile Include="SpawnPacketSerializer.cs" />
     <Compile Include="Vector3Serializer.cs" />
   </ItemGroup>
   <ItemGroup>

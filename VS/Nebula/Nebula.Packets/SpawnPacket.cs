@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Nebula.Packets
 {
-    public struct SpawnPacket
+    public struct SpawnPacket : IPacket
     {
         public Guid Id;
         public Vector3 Position;

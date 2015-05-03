@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DestroyPacket.cs" />
+    <Compile Include="IPacket.cs" />
     <Compile Include="MovePacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpawnPacket.cs" />

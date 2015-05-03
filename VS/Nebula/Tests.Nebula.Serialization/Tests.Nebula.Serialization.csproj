@@ -73,6 +73,7 @@
     <Compile Include="DestroyPacketSerializerTests.cs" />
     <Compile Include="GuidSerializerTests.cs" />
     <Compile Include="MovePacketSerializerTests.cs" />
+    <Compile Include="PacketSerializerTests.cs" />
     <Compile Include="QuaternionSerializerTests.cs" />
     <Compile Include="SpawnPacketSerializerTests.cs" />
     <Compile Include="Vector3SerializerTests.cs" />

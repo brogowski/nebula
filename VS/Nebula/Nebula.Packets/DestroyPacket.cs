@@ -2,7 +2,7 @@
 
 namespace Nebula.Packets
 {
-    public struct DestroyPacket
+    public struct DestroyPacket : IPacket
     {
         public Guid Id;
 
