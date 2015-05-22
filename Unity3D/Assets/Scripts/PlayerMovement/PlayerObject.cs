@@ -8,7 +8,6 @@ namespace Assets.Scripts.PlayerMovement
     {
         private PlayerController _playerController;
         private CharacterController _characterController;
-        private const float _gravity = 9.81f;
 
         void OnEnable()
         {
@@ -24,7 +23,6 @@ namespace Assets.Scripts.PlayerMovement
         {
             _playerController.MoveHorizontally(UnityEngine.Input.GetAxis(InputManager.HorizontalAxis) * Time.deltaTime * 100f);
             _playerController.MoveForward(UnityEngine.Input.GetAxis(InputManager.VerticalAxis) * Time.deltaTime * 100f);
-            _playerController.ApplyGravity(_gravity * Time.deltaTime);            
         }        
 
         public void MoveHorizontally(float value)

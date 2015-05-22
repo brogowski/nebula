@@ -19,7 +19,6 @@ namespace Assets.Scripts.Input
             {
                 GetInputData(InputManager.HorizontalAxis, horizontalValue),
                 GetInputData(InputManager.VerticalAxis, verticalValue),
-                GetInputData("Gravity", 9.81f)
             };
 
             Record(inputData, duration);

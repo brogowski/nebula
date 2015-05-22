@@ -43,9 +43,6 @@ namespace Assets.Scripts.Input
                     case InputManager.VerticalAxis:                        
                         PlayerController.MoveForward(input.Data[i].Value * input.Duration * 100f);
                         break;
-                    case "Gravity":
-                        PlayerController.ApplyGravity(input.Data[i].Value * input.Duration * 100f);
-                        break;
                 }
             }
         }
