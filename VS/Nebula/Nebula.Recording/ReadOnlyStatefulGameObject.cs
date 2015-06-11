@@ -15,14 +15,24 @@ namespace Nebula.Recording
             _lastRotation = gameObject.Rotation;
         }
 
-        public Vector3 GetPositionDiff()
+        public virtual bool IsDestroyed
+        {
+            get { return _gameObject.IsDestroyed; }
+        }
+
+        public virtual string Type
+        {
+            get { return _gameObject.Type; }
+        }
+
+        public virtual Vector3 GetPositionDiff()
         {
             var diff = _gameObject.Position - _lastPosition;
             _lastPosition = _gameObject.Position;
             return diff;
         }
 
-        public Quaternion GetRotationDiff()
+        public virtual Quaternion GetRotationDiff()
         {
             var diff = Quaternion.Inverse(_lastRotation)*_gameObject.Rotation;
             _lastRotation = _gameObject.Rotation;

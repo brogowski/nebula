@@ -21,7 +21,7 @@ namespace Tests.Nebula.Serialization
         [SetUp]
         public void Setup()
         {
-            _packet = new MovePacket(Guid.NewGuid(), new Vector3(), new Quaternion());
+            _packet = new MovePacket(Guid.NewGuid(), new Vector3(), new Quaternion(), 1.0f);
 
             _mockGuidSerializer = Substitute.For<IPacketConverter<Guid>>();
             _mockVectorSerializer = Substitute.For<IPacketConverter<Vector3>>();
@@ -41,7 +41,7 @@ namespace Tests.Nebula.Serialization
             _mockQuaternionSerializer.Serialize(_packet.Rotation).Returns("C");
 
             Check.That(_serializer.Serialize(_packet)).IsEqualTo(
-                string.Format("A{0}B{0}C", Environment.NewLine));
+                string.Format("A{0}B{0}C{0}1", Environment.NewLine));
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace Tests.Nebula.Serialization
             _mockVectorSerializer.Deserialize("B").Returns(_packet.Move);
             _mockQuaternionSerializer.Deserialize("C").Returns(_packet.Rotation);
 
-            Check.That(_serializer.Deserialize(string.Format("A{0}B{0}C", Environment.NewLine)))
+            Check.That(_serializer.Deserialize(string.Format("A{0}B{0}C{0}1", Environment.NewLine)))
                 .IsEqualTo(_packet);
         }
     }

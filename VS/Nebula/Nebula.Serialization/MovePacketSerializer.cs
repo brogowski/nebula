@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Nebula.Connectivity;
 using Nebula.Packets;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Nebula.Serialization
         private readonly IPacketConverter<Guid> _guidSerializer;
         private readonly IPacketConverter<Vector3> _vectorSerializer;
         private readonly IPacketConverter<Quaternion> _quaternionSerializer;
+        private readonly CultureInfo _floatFormat = CultureInfo.InvariantCulture;
 
         public MovePacketSerializer(
             IPacketConverter<Guid> guidSerializer,
@@ -27,7 +29,8 @@ namespace Nebula.Serialization
             {
                 _guidSerializer.Serialize(packet.Id),
                 _vectorSerializer.Serialize(packet.Move),
-                _quaternionSerializer.Serialize(packet.Rotation)
+                _quaternionSerializer.Serialize(packet.Rotation),
+                packet.Duration.ToString(_floatFormat)
             };
         }
 
@@ -36,7 +39,8 @@ namespace Nebula.Serialization
             return new MovePacket(
                 _guidSerializer.Deserialize(split[0]),
                 _vectorSerializer.Deserialize(split[1]),
-                _quaternionSerializer.Deserialize(split[2]));
+                _quaternionSerializer.Deserialize(split[2]),
+                float.Parse(split[3], _floatFormat));
         }
     }
 }

@@ -8,12 +8,14 @@ namespace Nebula.Packets
         public Guid Id;
         public Vector3 Move;
         public Quaternion Rotation;
+        public float Duration;
 
-        public MovePacket(Guid id, Vector3 move, Quaternion rotation)
+        public MovePacket(Guid id, Vector3 move, Quaternion rotation, float duration)
         {
             Id = id;
             Move = move;
             Rotation = rotation;
+            Duration = duration;
         }
     }
 }

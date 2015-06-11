@@ -48,6 +48,7 @@
     <Compile Include="PacketSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuaternionSerializer.cs" />
+    <Compile Include="RecordedInputSerializer.cs" />
     <Compile Include="SpawnPacketSerializer.cs" />
     <Compile Include="Vector3Serializer.cs" />
   </ItemGroup>
@@ -55,6 +56,10 @@
     <ProjectReference Include="..\Nebula.Connectivity\Nebula.Connectivity.csproj">
       <Project>{67861B57-393F-43D0-8823-E4B44A226236}</Project>
       <Name>Nebula.Connectivity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nebula.Input\Nebula.Input.csproj">
+      <Project>{C6661F86-816B-4C66-98EA-FDB69071B029}</Project>
+      <Name>Nebula.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\Nebula.Packets\Nebula.Packets.csproj">
       <Project>{35EB3863-14BC-4114-B18B-9E40D951F2BB}</Project>

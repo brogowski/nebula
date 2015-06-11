@@ -14,7 +14,7 @@ namespace Nebula.Connectivity
             _deserializer = deserializer;
         }
 
-        public IEnumerable<T> Recive()
+        public virtual IEnumerable<T> Recive()
         {
             return _transmissionProtocol.GetPackets().Select(DeserializePacket);
         }

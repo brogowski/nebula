@@ -6,5 +6,7 @@ namespace Nebula.Recording
     {
         Vector3 Position { get; set; }
         Quaternion Rotation { get; set; }
+        bool IsDestroyed { get; }
+        string Type { get; }
     }
 }

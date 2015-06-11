@@ -11,7 +11,7 @@
             _serializer = serializer;
         }
 
-        public void Send(T message)
+        public virtual void Send(T message)
         {
             _protocol.SendPacket(_serializer.Serialize(message));
         }

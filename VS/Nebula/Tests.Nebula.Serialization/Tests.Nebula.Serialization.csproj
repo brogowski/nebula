@@ -75,6 +75,7 @@
     <Compile Include="MovePacketSerializerTests.cs" />
     <Compile Include="PacketSerializerTests.cs" />
     <Compile Include="QuaternionSerializerTests.cs" />
+    <Compile Include="RecordedInputSerializerTests.cs" />
     <Compile Include="SpawnPacketSerializerTests.cs" />
     <Compile Include="Vector3SerializerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +88,10 @@
       <Project>{67861b57-393f-43d0-8823-e4b44a226236}</Project>
       <Name>Nebula.Connectivity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Nebula.Input\Nebula.Input.csproj">
+      <Project>{C6661F86-816B-4C66-98EA-FDB69071B029}</Project>
+      <Name>Nebula.Input</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Nebula.Packets\Nebula.Packets.csproj">
       <Project>{35EB3863-14BC-4114-B18B-9E40D951F2BB}</Project>
       <Name>Nebula.Packets</Name>
@@ -95,6 +100,9 @@
       <Project>{4EEAAB71-60F5-4725-8258-FE436FD7D5E9}</Project>
       <Name>Nebula.Serialization</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -13,9 +13,5 @@
         {
             PlayerObject.MoveForward(Speed * input);
         }
-        public void ApplyGravity(float value)
-        {
-            PlayerObject.MoveVertically(-value);
-        }
     }
 }
