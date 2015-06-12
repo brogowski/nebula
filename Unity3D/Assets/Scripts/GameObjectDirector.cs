@@ -16,6 +16,8 @@ namespace Assets.Scripts
             _prefabs = new Dictionary<string, GameObject>(prefabs);
         }
 
+        public int ObjectsCount { get { return _gameObjects.Count; } }
+
         public void MoveObjects(float deltaTime)
         {
             foreach (var physicsObject in _gameObjects.Values)

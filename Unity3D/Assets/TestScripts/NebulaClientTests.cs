@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
 using Assets.Scripts.EditorSettings;
+using Assets.Scripts.ViewModels;
 using Nebula;
 using Nebula.Connectivity;
 using Nebula.Input;
@@ -18,7 +19,7 @@ namespace Assets.TestScripts
         public string Ip = "127.0.0.1";
         public int Port = 9999;
         public GameObject Prefab;
-
+        public NebulaTestViewModel ViewModel; 
 
         private TcpClientTransmissionProtocol _transmissionProtocol;
         private GameObjectDirector _gameObjectDirector;
@@ -53,6 +54,12 @@ namespace Assets.TestScripts
         {
             UpdateRemoteInput(Time.deltaTime);
             UpdateLocalPhysics(Time.deltaTime);
+            UpdateStatistics();
+        }
+
+        private void UpdateStatistics()
+        {
+            ViewModel.UpdateStatisticsPanel(string.Format("Objects on scene: {0}", _gameObjectDirector.ObjectsCount));
         }
 
         void OnDestroy()
