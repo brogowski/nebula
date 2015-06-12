@@ -10,7 +10,7 @@ namespace Assets.Scripts
 
         public ReadWriteGameObject(GameObject gameObject)
         {
-            var monoBehaviourWrapper = new GameObjectWrapper(gameObject);
+            var monoBehaviourWrapper = new GameObjectWrapper(gameObject, "");
             _readGameObject = new ReadOnlyStatefulGameObject(monoBehaviourWrapper);
             _saveGameObject = new SaveOnlyStatefulGameObject(monoBehaviourWrapper);
         }

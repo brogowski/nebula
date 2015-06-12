@@ -6,10 +6,10 @@ namespace Assets.Scripts
 {
     class PhysicsObject
     {
-        public PhysicsObject(GameObject gameObject)
+        public PhysicsObject(GameObject gameObject, string type)
         {
             GameObject = gameObject;
-            SaveOnlyStatefulGameObject = new SaveOnlyStatefulGameObject(new GameObjectWrapper(gameObject));
+            SaveOnlyStatefulGameObject = new SaveOnlyStatefulGameObject(new GameObjectWrapper(gameObject, type));
             Moves = GetNewVectorList();
             Rotations = GetNewQuaternionList();
         }

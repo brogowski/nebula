@@ -6,10 +6,12 @@ namespace Assets.Scripts
     internal class GameObjectWrapper : IGameObject
     {
         private readonly GameObject _gameObject;
+        private readonly string _type;
 
-        public GameObjectWrapper(GameObject gameObject)
+        public GameObjectWrapper(GameObject gameObject, string type)
         {
             _gameObject = gameObject;
+            _type = type;
         }
 
         public Vector3 Position
@@ -26,12 +28,12 @@ namespace Assets.Scripts
 
         public bool IsDestroyed
         {
-            get { return false; }
+            get { return _gameObject == null; }
         }
 
         public string Type
         {
-            get { return _gameObject.name; }
+            get { return _type; }
         }
     }
 }

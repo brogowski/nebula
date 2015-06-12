@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.TestScripts;
+using UnityEngine;
 
 namespace Assets.Scripts.Helpers
 {
@@ -8,6 +9,7 @@ namespace Assets.Scripts.Helpers
         public void OnTriggerEnter(Collider other)
         {
             Destroy(other.gameObject);
+            JengaTest.ObjectCount--;
         }
     }
 }

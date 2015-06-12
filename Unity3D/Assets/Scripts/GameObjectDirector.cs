@@ -44,7 +44,8 @@ namespace Assets.Scripts
         {
             var prefab = _prefabs[packet.Type];
             var newGameObject = (GameObject)Object.Instantiate(prefab, packet.Position, packet.Rotation);
-            _gameObjects.Add(packet.Id, new PhysicsObject(newGameObject));
+            Object.Destroy(newGameObject.GetComponent<Rigidbody>());
+            _gameObjects.Add(packet.Id, new PhysicsObject(newGameObject, packet.Type));
         }
 
         public void DestroyObject(DestroyPacket packet)

@@ -38,5 +38,15 @@ namespace Nebula.Recording
             _lastRotation = _gameObject.Rotation;
             return diff;
         }
+
+        public Vector3 GetCurrentPosition()
+        {
+            return _gameObject.Position;
+        }
+
+        public Quaternion GetCurrentRotation()
+        {
+            return _gameObject.Rotation;
+        }
     }
 }

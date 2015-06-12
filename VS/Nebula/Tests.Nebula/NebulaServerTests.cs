@@ -46,8 +46,8 @@ namespace Tests.Nebula
                 .Do(q => packet = q.Arg<IPacket>());
 
             var stub = Substitute.For<ReadOnlyStatefulGameObject>(Substitute.For<IGameObject>());
-            stub.GetPositionDiff().Returns(new Vector3(1,2,3));
-            stub.GetRotationDiff().Returns(new Quaternion(1, 2, 3, 4));
+            stub.GetCurrentPosition().Returns(new Vector3(1,2,3));
+            stub.GetCurrentRotation().Returns(new Quaternion(1, 2, 3, 4));
             stub.Type.Returns("ABC");
             stub.IsDestroyed.Returns(false);
 

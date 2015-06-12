@@ -15,18 +15,33 @@ namespace Assets.TestScripts
     {
         public string Ip = "127.0.0.1";
         public int Port = 9999;
-        public GameObject[] Prefabs;
+        public GameObject Prefab;
         public NebulaTestGameLogic GameLogic;
 
+        private TcpListenerTransmissionProtocol _transmissionProtocol;
         private NebulaServer _nebula;
 
         void OnEnable()
         {
-            var tcpServer = new TcpListenerTransmissionProtocol(Ip, Port);
-            tcpServer.Start();
+            _transmissionProtocol = new TcpListenerTransmissionProtocol(Ip, Port);
+            _transmissionProtocol.Start();
 
-            _nebula = new NebulaServer(new PacketSender(tcpServer, new PacketSerializer()),
-                new RecordedInputReciver(tcpServer, new RecordedInputSerializer()));
+            _nebula = new NebulaServer(new PacketSender(_transmissionProtocol, SetupPacketSerializer()),
+                new RecordedInputReciver(_transmissionProtocol, new RecordedInputSerializer()));
+        }
+
+        private PacketSerializer SetupPacketSerializer()
+        {
+            var packetSerializer = new PacketSerializer();
+            var movePacketSerializer = new MovePacketSerializer(new GuidSerializer(), new Vector3Serializer(),
+                new QuaternionSerializer());
+            var spawnPacketSerializer = new SpawnPacketSerializer(new GuidSerializer(), new Vector3Serializer(),
+                new QuaternionSerializer());
+            var destroyPacketSerializer = new DestroyPacketSerializer();
+            packetSerializer.Serializers.Add(typeof (MovePacket), packet => movePacketSerializer.Serialize((MovePacket) packet));
+            packetSerializer.Serializers.Add(typeof (SpawnPacket), packet => spawnPacketSerializer.Serialize((SpawnPacket) packet));
+            packetSerializer.Serializers.Add(typeof (DestroyPacket), packet => destroyPacketSerializer.Serialize(((DestroyPacket) packet).Id));
+            return packetSerializer;
         }
 
         void FixedUpdate()
@@ -36,9 +51,14 @@ namespace Assets.TestScripts
             GameLogic.ExecuteInputs(inputs);
         }
 
+        void OnDestroy()
+        {
+            _transmissionProtocol.Stop();
+        }
+
         public void AddNewGameObject(GameObject newGameObject)
         {
-            _nebula.AddToRemotePhysics(new ReadOnlyStatefulGameObject(new GameObjectWrapper(newGameObject)));
+            _nebula.AddToRemotePhysics(new ReadOnlyStatefulGameObject(new GameObjectWrapper(newGameObject, Prefab.name)));
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 namespace Assets.Scripts.Helpers
 {            
@@ -21,12 +22,12 @@ namespace Assets.Scripts.Helpers
 
         void Update()
         {
-            _moveX = UnityEngine.Input.GetAxis("Horizontal") * MoveSpeed;
-            _moveY = UnityEngine.Input.GetAxis("Height") * MoveSpeed;
-            _moveZ = UnityEngine.Input.GetAxis("Vertical") * MoveSpeed;
+            _moveX = GetAxis("Horizontal") * MoveSpeed;
+            _moveY = GetAxis("Height") * MoveSpeed;
+            _moveZ = GetAxis("Vertical") * MoveSpeed;
 
-            _yRotation += UnityEngine.Input.GetAxis("Mouse X") * LookSensitivity;
-            _xrotation -= UnityEngine.Input.GetAxis("Mouse Y") * LookSensitivity;
+            _yRotation += CrossPlatformInputManager.GetAxis("Mouse X") * LookSensitivity;
+            _xrotation -= CrossPlatformInputManager.GetAxis("Mouse Y") * LookSensitivity;
 
             _xrotation = Mathf.Clamp(_xrotation, -90, 90);
             _currentXRotation = Mathf.SmoothDamp(_currentXRotation, _xrotation, ref _xRotationV, LookSmoothDamp);
@@ -38,6 +39,14 @@ namespace Assets.Scripts.Helpers
                 Camera.main.transform.rotation = Quaternion.Euler(_xrotation, _yRotation, 0);
             }
 
+        }
+
+        private static float GetAxis(string name)
+        {
+            if (Time.timeScale == 0)
+                return UnityEngine.Input.GetAxisRaw(name);
+
+            return CrossPlatformInputManager.GetAxis(name);
         }
     }
 }

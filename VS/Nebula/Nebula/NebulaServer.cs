@@ -106,8 +106,8 @@ namespace Nebula
         private IPacket BuildSpawnPacket(ObservableGameObject observableGameObject)
         {
             return new SpawnPacket(observableGameObject.Id,
-                observableGameObject.GameObject.GetPositionDiff(),
-                observableGameObject.GameObject.GetRotationDiff(),
+                observableGameObject.GameObject.GetCurrentPosition(),
+                observableGameObject.GameObject.GetCurrentRotation(),
                 observableGameObject.GameObject.Type);
         }
 
